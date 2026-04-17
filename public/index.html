@@ -2,426 +2,409 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>Email OTP Verification | Secure Access</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OTP Verification | Email + Mobile</title>
 <style>
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
-  body {
-    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-    background: linear-gradient(145deg, #e9eff5 0%, #dce3ec 100%);
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0;
-    padding: 20px;
-    position: relative;
-  }
+    body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
 
-  /* modern glassmorphism backdrop effect */
-  body::before {
-    content: '';
-    position: absolute;
-    width: 180%;
-    height: 180%;
-    top: -40%;
-    left: -40%;
-    background: radial-gradient(circle at 30% 20%, rgba(255,255,245,0.25), rgba(200,220,250,0.1));
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  .container {
-    background: rgba(255, 255, 255, 0.96);
-    backdrop-filter: blur(0px);
-    width: 100%;
-    max-width: 440px;
-    margin: 0 auto;
-    padding: 2.2rem 2rem 2.5rem;
-    border-radius: 2rem;
-    box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.25), 0 8px 18px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255,255,255,0.6);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    border: 1px solid rgba(255,255,255,0.5);
-    position: relative;
-    z-index: 2;
-  }
-
-  .container:hover {
-    box-shadow: 0 30px 55px -15px rgba(0, 0, 0, 0.3);
-    transform: translateY(-3px);
-  }
-
-  h2 {
-    font-size: 1.85rem;
-    font-weight: 700;
-    background: linear-gradient(135deg, #1E2A3E, #0f1a2b);
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;
-    letter-spacing: -0.3px;
-    margin-bottom: 0.5rem;
-    display: inline-block;
-    position: relative;
-  }
-
-  /* subtle accent line under heading */
-  h2::after {
-    content: '';
-    display: block;
-    width: 48px;
-    height: 4px;
-    background: linear-gradient(90deg, #3b82f6, #6366f1);
-    border-radius: 4px;
-    margin-top: 8px;
-    margin-left: 2px;
-  }
-
-  /* input group wrapper for better spacing */
-  .input-group {
-    margin: 1.5rem 0 1rem;
-    text-align: left;
-  }
-
-  .input-label {
-    font-size: 0.8rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: #4b5563;
-    margin-bottom: 0.5rem;
-    display: block;
-  }
-
-  input {
-    width: 100%;
-    padding: 0.9rem 1rem;
-    font-size: 1rem;
-    font-family: 'Inter', monospace;
-    border: 1.5px solid #e2e8f0;
-    border-radius: 1.2rem;
-    background-color: #fefefe;
-    transition: all 0.2s ease;
-    outline: none;
-    color: #0f172a;
-    font-weight: 500;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.02);
-  }
-
-  input:focus {
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 3px rgba(59,130,246,0.2);
-    background-color: white;
-  }
-
-  input::placeholder {
-    color: #a0afc0;
-    font-weight: 400;
-    font-size: 0.9rem;
-  }
-
-  /* modern button styles with gradient & hover */
-  button {
-    width: 100%;
-    padding: 0.85rem 1rem;
-    font-size: 0.95rem;
-    font-weight: 600;
-    font-family: inherit;
-    border: none;
-    border-radius: 1.5rem;
-    cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-    margin-top: 0.5rem;
-    background: linear-gradient(100deg, #1f2937, #111827);
-    color: white;
-    letter-spacing: 0.2px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-    position: relative;
-    overflow: hidden;
-  }
-
-  button::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-    transition: left 0.4s;
-  }
-
-  button:hover::before {
-    left: 100%;
-  }
-
-  button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 20px -10px rgba(0, 0, 0, 0.25);
-    background: linear-gradient(100deg, #2d3a4e, #1a2538);
-  }
-
-  button:active {
-    transform: translateY(1px);
-    transition: 0.05s;
-  }
-
-  /* second button (verify) gets distinct accent */
-  button:last-of-type {
-    background: linear-gradient(100deg, #2563eb, #1e40af);
-    margin-top: 0.75rem;
-  }
-
-  button:last-of-type:hover {
-    background: linear-gradient(100deg, #3b82f6, #1e3a8a);
-  }
-
-  /* spacing between buttons and inputs */
-  .otp-section {
-    margin-top: 0.8rem;
-  }
-
-  #message {
-    margin-top: 1.4rem;
-    font-size: 0.85rem;
-    font-weight: 600;
-    padding: 0.6rem;
-    border-radius: 2rem;
-    background: rgba(0,0,0,0.02);
-    text-align: center;
-    letter-spacing: 0.2px;
-    transition: all 0.2s;
-  }
-
-  /* modern divider */
-  .divider {
-    display: flex;
-    align-items: center;
-    text-align: center;
-    margin: 1rem 0 0.4rem;
-    color: #9ca3af;
-    font-size: 0.7rem;
-    font-weight: 500;
-  }
-
-  .divider::before,
-  .divider::after {
-    content: '';
-    flex: 1;
-    border-bottom: 1px solid #e2e8f0;
-  }
-
-  .divider::before {
-    margin-right: 0.8rem;
-  }
-  .divider::after {
-    margin-left: 0.8rem;
-  }
-
-  /* responsive touches */
-  @media (max-width: 480px) {
     .container {
-      padding: 1.7rem 1.3rem 2rem;
-      border-radius: 1.6rem;
+        background: white;
+        border-radius: 2rem;
+        padding: 2rem;
+        max-width: 500px;
+        width: 100%;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        animation: slideUp 0.5s ease;
     }
-    h2 {
-      font-size: 1.6rem;
+
+    @keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
+
+    h1 {
+        font-size: 1.8rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+        color: #6b7280;
+        margin-bottom: 2rem;
+        font-size: 0.9rem;
+    }
+
+    .tab-container {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        border-bottom: 2px solid #e5e7eb;
+    }
+
+    .tab {
+        flex: 1;
+        padding: 0.75rem;
+        background: none;
+        border: none;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        color: #6b7280;
+        transition: all 0.3s;
+        position: relative;
+    }
+
+    .tab.active {
+        color: #667eea;
+    }
+
+    .tab.active::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        color: #374151;
+    }
+
     input {
-      padding: 0.8rem 0.9rem;
+        width: 100%;
+        padding: 0.875rem;
+        border: 2px solid #e5e7eb;
+        border-radius: 1rem;
+        font-size: 1rem;
+        transition: all 0.3s;
+        font-family: inherit;
     }
-  }
 
-  /* small badge-like style for messages */
-  .success-glow {
-    text-shadow: 0 0 2px rgba(34,197,94,0.2);
-  }
-  .error-shake {
-    animation: subtleShake 0.3s ease;
-  }
+    input:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
 
-  @keyframes subtleShake {
-    0% { transform: translateX(0); }
-    25% { transform: translateX(-3px); }
-    75% { transform: translateX(3px); }
-    100% { transform: translateX(0); }
-  }
+    button {
+        width: 100%;
+        padding: 0.875rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        border-radius: 1rem;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+    }
+
+    button:active {
+        transform: translateY(0);
+    }
+
+    .otp-section {
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 2px solid #e5e7eb;
+    }
+
+    .message {
+        margin-top: 1rem;
+        padding: 0.75rem;
+        border-radius: 0.75rem;
+        text-align: center;
+        font-weight: 500;
+        animation: fadeIn 0.3s;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    .message.success {
+        background: #d1fae5;
+        color: #065f46;
+    }
+
+    .message.error {
+        background: #fee2e2;
+        color: #991b1b;
+    }
+
+    .demo-badge {
+        background: #fef3c7;
+        color: #92400e;
+        padding: 0.5rem;
+        border-radius: 0.5rem;
+        font-size: 0.75rem;
+        text-align: center;
+        margin-top: 1rem;
+    }
+
+    .otp-display {
+        background: #f3f4f6;
+        padding: 0.5rem;
+        border-radius: 0.5rem;
+        font-family: monospace;
+        font-size: 0.85rem;
+        margin-top: 0.5rem;
+        text-align: center;
+    }
 </style>
 </head>
 <body>
-
 <div class="container">
-    <h2>Email OTP</h2>
-    <p style="font-size: 0.75rem; color: #5b6e8c; margin-bottom: 0.2rem; margin-top: 0.2rem;">Secure verification code</p>
+    <h1>🔐 OTP Verification</h1>
+    <p class="subtitle">Verify your identity securely</p>
 
-    <div class="input-group">
-        <span class="input-label">📧 Email address</span>
-        <input type="email" id="email" placeholder="you@example.com" autocomplete="email" />
-    </div>
-    
-    <button onclick="sendOTP()" id="sendBtn">✨ Send OTP</button>
-    
-    <div class="divider">verification</div>
-    
-    <div class="otp-section">
-        <span class="input-label">🔐 One-Time Password</span>
-        <input type="text" id="otp" placeholder="Enter 6-digit code" autocomplete="off" inputmode="numeric" />
-        <button onclick="verifyOTP()" id="verifyBtn">✓ Verify OTP</button>
+    <div class="tab-container">
+        <button class="tab active" onclick="switchTab('email')">📧 Email</button>
+        <button class="tab" onclick="switchTab('mobile')">📱 Mobile</button>
     </div>
 
-    <p id="message"></p>
+    <!-- Email Tab -->
+    <div id="emailTab">
+        <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="emailInput" placeholder="Enter your email" value="Enter your mail id to get otp">
+        </div>
+        <button onclick="sendEmailOTP()">📨 Send OTP</button>
+
+        <div class="otp-section">
+            <div class="form-group">
+                <label>Enter OTP</label>
+                <input type="text" id="emailOtp" placeholder="6-digit code" maxlength="6">
+            </div>
+            <button onclick="verifyEmailOTP()">✓ Verify Email</button>
+        </div>
+    </div>
+
+    <!-- Mobile Tab -->
+    <div id="mobileTab" style="display: none;">
+        <div class="form-group">
+            <label>Mobile Number</label>
+            <div style="display: flex; gap: 0.5rem;">
+                <input type="text" id="countryCode" placeholder="+91" value="+91" style="width: 80px;">
+                <input type="tel" id="mobileInput" placeholder="9611459960" value="9611459960">
+            </div>
+        </div>
+        <button onclick="sendMobileOTP()">📱 Send OTP</button>
+
+        <div class="otp-section">
+            <div class="form-group">
+                <label>Enter OTP</label>
+                <input type="text" id="mobileOtp" placeholder="6-digit code" maxlength="6">
+            </div>
+            <button onclick="verifyMobileOTP()">✓ Verify Mobile</button>
+        </div>
+    </div>
+
+    <div id="message"></div>
+    <div id="demoInfo" class="demo-badge" style="display: none;"></div>
 </div>
 
 <script>
-// ⚡ All original logic preserved exactly as provided,
-// but with enhanced UI feedback & graceful error handling (no functional changes)
-async function sendOTP() {
-    const email = document.getElementById("email").value;
-    const messageEl = document.getElementById("message");
-    
-    if (!email) {
-        showMessage("Enter email first", "red");
-        return;
+    let currentDemoOtp = null;
+
+    function switchTab(tab) {
+        const emailTab = document.getElementById('emailTab');
+        const mobileTab = document.getElementById('mobileTab');
+        const tabs = document.querySelectorAll('.tab');
+        
+        if (tab === 'email') {
+            emailTab.style.display = 'block';
+            mobileTab.style.display = 'none';
+            tabs[0].classList.add('active');
+            tabs[1].classList.remove('active');
+        } else {
+            emailTab.style.display = 'none';
+            mobileTab.style.display = 'block';
+            tabs[0].classList.remove('active');
+            tabs[1].classList.add('active');
+        }
+        clearMessage();
     }
 
-    // optional: basic email format check (only improves UX, not altering logic)
-    // but it does NOT modify any fetch behavior, just a mild helper for styling
-    // Original code flow fully intact
-    try {
-        const res = await fetch("/send-otp", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email })
-        });
-
-        const data = await res.json();
-        showMessage(data.message, data.success ? "green" : "red");
-        // add subtle animation to indicate action
-        if (data.success) animateButtonFeedback("sendBtn", true);
-        else animateButtonFeedback("sendBtn", false);
-    } catch (err) {
-        // network error fallback: matches original expectations but stylish
-        showMessage("Network error: could not reach server", "red");
-        console.error(err);
-    }
-}
-
-async function verifyOTP() {
-    const email = document.getElementById("email").value;
-    const otp = document.getElementById("otp").value;
-    const messageEl = document.getElementById("message");
-
-    // original verification call remains unchanged
-    try {
-        const res = await fetch("/verify-otp", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email, otp })
-        });
-
-        const data = await res.json();
-        showMessage(data.message, data.success ? "green" : "red");
-        if (data.success) animateButtonFeedback("verifyBtn", true);
-        else animateButtonFeedback("verifyBtn", false);
-    } catch (err) {
-        showMessage("Verification failed. Server unreachable.", "red");
-        console.error(err);
-    }
-}
-
-// original showMessage but upgraded with modern styling, transition effects, 
-// and optional animation without changing any message behavior
-function showMessage(msg, color) {
-    const el = document.getElementById("message");
-    el.innerText = msg;
-    // set color based on 'green' or 'red' or default dark
-    if (color === "green") {
-        el.style.color = "#0e7b32";
-        el.style.backgroundColor = "#e8f5e9";
-        el.style.borderLeft = "4px solid #22c55e";
-        el.style.fontWeight = "600";
-    } else if (color === "red") {
-        el.style.color = "#b91c1c";
-        el.style.backgroundColor = "#ffefef";
-        el.style.borderLeft = "4px solid #ef4444";
-        el.style.fontWeight = "600";
-    } else {
-        el.style.color = "#1e293b";
-        el.style.backgroundColor = "#f1f5f9";
-        el.style.borderLeft = "4px solid #94a3b8";
-    }
-    el.style.borderRadius = "2rem";
-    el.style.padding = "0.6rem 1rem";
-    el.style.transition = "all 0.2s ease";
-    // subtle shake on error messages only (visual delight)
-    if (color === "red") {
-        el.classList.add("error-shake");
-        setTimeout(() => el.classList.remove("error-shake"), 400);
-    }
-}
-
-// tiny UX feedback: button pulse effect after action (doesn't alter functionality)
-function animateButtonFeedback(btnId, isSuccess) {
-    const btn = document.getElementById(btnId);
-    if (!btn) return;
-    btn.style.transform = "scale(0.97)";
-    setTimeout(() => {
-        btn.style.transform = "";
-    }, 120);
-    if (isSuccess) {
-        btn.style.transition = "box-shadow 0.1s";
-        btn.style.boxShadow = "0 0 0 3px rgba(34,197,94,0.4)";
+    function showMessage(msg, isSuccess) {
+        const messageDiv = document.getElementById('message');
+        messageDiv.innerHTML = `<div class="message ${isSuccess ? 'success' : 'error'}">${msg}</div>`;
         setTimeout(() => {
-            btn.style.boxShadow = "";
-        }, 300);
-    } else {
-        btn.style.boxShadow = "0 0 0 2px rgba(239,68,68,0.4)";
-        setTimeout(() => {
-            btn.style.boxShadow = "";
-        }, 300);
+            if (messageDiv.innerHTML === `<div class="message ${isSuccess ? 'success' : 'error'}">${msg}</div>`) {
+                messageDiv.innerHTML = '';
+            }
+        }, 5000);
     }
-}
 
-// keep original functions attached to global scope, ensure everything works
-// Also: automatic trimming and minor polish for OTP input (only UI, not logic)
-document.addEventListener("DOMContentLoaded", function() {
-    const otpField = document.getElementById("otp");
-    if (otpField) {
-        // optional: allow only digits on input but NOT interfering with verification
-        // it's only to enhance user input style - original backend still validates anyway
-        otpField.addEventListener("input", function(e) {
-            this.value = this.value.replace(/[^0-9]/g, '').slice(0, 8);
-        });
+    function clearMessage() {
+        document.getElementById('message').innerHTML = '';
     }
-    const emailField = document.getElementById("email");
-    if (emailField) {
-        emailField.addEventListener("input", function() {
-            // no logic changes, just clean UI for spacing
-        });
-    }
-    // additional elegance: pressing Enter on OTP field triggers verify
-    if (otpField) {
-        otpField.addEventListener("keypress", function(event) {
-            if (event.key === "Enter") {
-                event.preventDefault();
-                verifyOTP();
+
+    async function sendEmailOTP() {
+        const email = document.getElementById('emailInput').value;
+        
+        if (!email) {
+            showMessage('Please enter email address', false);
+            return;
+        }
+
+        try {
+            const response = await fetch('http://localhost:5000/send-otp', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email })
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                showMessage(`✅ ${data.message}`, true);
+            } else {
+                showMessage(`❌ ${data.message}`, false);
             }
-        });
+        } catch (error) {
+            showMessage('❌ Server error. Make sure backend is running on port 5000', false);
+        }
     }
-    const emailEnter = document.getElementById("email");
-    if (emailEnter) {
-        emailEnter.addEventListener("keypress", function(event) {
-            if (event.key === "Enter") {
-                event.preventDefault();
-                sendOTP();
+
+    async function verifyEmailOTP() {
+        const email = document.getElementById('emailInput').value;
+        const otp = document.getElementById('emailOtp').value;
+        
+        if (!otp) {
+            showMessage('Please enter OTP', false);
+            return;
+        }
+
+        try {
+            const response = await fetch('http://localhost:5000/verify-otp', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, otp })
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                showMessage(`✅ ${data.message}`, true);
+                document.getElementById('emailOtp').value = '';
+            } else {
+                showMessage(`❌ ${data.message}`, false);
             }
-        });
+        } catch (error) {
+            showMessage('❌ Server error', false);
+        }
     }
-});
+
+    async function sendMobileOTP() {
+        const countryCode = document.getElementById('countryCode').value;
+        const mobile = document.getElementById('mobileInput').value;
+        const fullMobile = countryCode + mobile;
+        
+        if (!mobile) {
+            showMessage('Please enter mobile number', false);
+            return;
+        }
+
+        try {
+            const response = await fetch('http://localhost:5000/send-sms-otp', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ mobile: fullMobile, countryCode, number: mobile })
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                showMessage(`✅ ${data.message}`, true);
+                if (data.demoOtp) {
+                    currentDemoOtp = data.demoOtp;
+                    const demoDiv = document.getElementById('demoInfo');
+                    demoDiv.style.display = 'block';
+                    demoDiv.innerHTML = `🔑 Demo Mode - Your OTP is: <strong>${data.demoOtp}</strong><br>(Check server console also)`;
+                    setTimeout(() => {
+                        if (demoDiv.innerHTML.includes(data.demoOtp)) {
+                            demoDiv.style.display = 'none';
+                        }
+                    }, 10000);
+                }
+            } else {
+                showMessage(`❌ ${data.message}`, false);
+            }
+        } catch (error) {
+            showMessage('❌ Server error. Make sure backend is running on port 5000', false);
+        }
+    }
+
+    async function verifyMobileOTP() {
+        const countryCode = document.getElementById('countryCode').value;
+        const mobile = document.getElementById('mobileInput').value;
+        const otp = document.getElementById('mobileOtp').value;
+        const fullMobile = countryCode + mobile;
+        
+        if (!otp) {
+            showMessage('Please enter OTP', false);
+            return;
+        }
+
+        try {
+            const response = await fetch('http://localhost:5000/verify-sms-otp', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ mobile: fullMobile, otp, countryCode, number: mobile })
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                showMessage(`✅ ${data.message}`, true);
+                document.getElementById('mobileOtp').value = '';
+                document.getElementById('demoInfo').style.display = 'none';
+            } else {
+                showMessage(`❌ ${data.message}`, false);
+            }
+        } catch (error) {
+            showMessage('❌ Server error', false);
+        }
+    }
 </script>
 </body>
 </html>
