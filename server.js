@@ -8,7 +8,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static("public"));
 
-const PORT = process.env.PORT || 5000;
+const PORT = 5000;
 
 let otpStore = {};
 
@@ -168,18 +168,4 @@ setInterval(() => {
 }, 5 * 60 * 1000);
 
 app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Server running on http://192.168.0.137:${PORT}`);
-    console.log(`\n🚀 =========================================`);
-    console.log(`🚀 Server running on http://localhost:${PORT}`);
-    console.log(`🚀 =========================================`);
-    console.log(`\n📧 Email OTP: karthikram1391@gmail.com`);
-    console.log(`📱 Mobile OTP: 9611459960`);
-    console.log(`\n💡 Mobile OTP will appear:`);
-    console.log(`   - In your server terminal (above)`);
-    console.log(`   - On the webpage (Demo mode)`);
-    console.log(`\n⚠️  For Email OTP, you need to:`);   
-    console.log(`   1. Go to https://myaccount.google.com/apppasswords`);
-    console.log(`   2. Generate an App Password`);
-    console.log(`   3. Replace 'YOUR_APP_PASSWORD' in this file`);
-    console.log(`\n✅ Server is ready! Open http://localhost:5000\n`);
 });
