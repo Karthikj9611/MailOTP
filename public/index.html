@@ -287,7 +287,7 @@
         }
 
         try {
-            const response = await fetch('http://localhost:5000/send-otp', {
+            const response = await fetch('http://192.168.0.137:5000/send-otp', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email })
@@ -315,7 +315,7 @@
         }
 
         try {
-            const response = await fetch('http://localhost:5000/verify-otp', {
+            const response = await fetch('http://192.168.0.137:5000/verify-otp', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, otp })

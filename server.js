@@ -167,7 +167,8 @@ setInterval(() => {
     }
 }, 5 * 60 * 1000);
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
+    console.log(`Server running on http://192.168.0.137:${PORT}`);
     console.log(`\n🚀 =========================================`);
     console.log(`🚀 Server running on http://localhost:${PORT}`);
     console.log(`🚀 =========================================`);
