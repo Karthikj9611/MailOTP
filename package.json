@@ -15,13 +15,5 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Karthikj9611/MailOTP.git"
-  },
-  "bugs": {
-    "url": "https://github.com/Karthikj9611/MailOTP/issues"
-  },
-  "homepage": "https://github.com/Karthikj9611/MailOTP#readme"
+  "type": "commonjs"
 }
