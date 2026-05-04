@@ -8,17 +8,20 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static("public"));
 
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 let otpStore = {};
+
+require("dotenv").config({ path: "D:/PW/KR/Dynamic Websites/MailOTP/mail.env" });
 
 const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-        user: "karthikram1391@gmail.com",
-        pass: "gsbisdrdqoyzqoln"
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
     }
 });
+
 
 function generateOTP() {
     return Math.floor(100000 + Math.random() * 900000).toString();
@@ -48,8 +51,9 @@ app.post("/send-otp", async (req, res) => {
 
         res.json({ success: true, message: "OTP sent successfully" });
     } catch (err) {
-        res.json({ success: false, message: "Failed to send OTP" });
-    }
+    console.error("MAIL ERROR:", err);
+    res.json({ success: false, message: "Failed to send OTP" });
+}
 });
 
 app.post("/verify-otp", (req, res) => {
