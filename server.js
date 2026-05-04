@@ -12,7 +12,10 @@ const PORT = process.env.PORT || 5000;
 
 let otpStore = {};
 
-require("dotenv").config({ path: "D:/PW/KR/Dynamic Websites/MailOTP/mail.env" });
+//require("dotenv").config({ path: "D:/PW/KR/Dynamic Websites/MailOTP/mail.env" });
+require("dotenv").config({ path: "./mail.env" });
+console.log("EMAIL_USER:", process.env.EMAIL_USER);
+console.log("EMAIL_PASS:", process.env.EMAIL_PASS ? "SET" : "NOT SET");
 
 const transporter = nodemailer.createTransport({
     service: "gmail",
