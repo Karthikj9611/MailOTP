@@ -292,7 +292,9 @@ async function sendOTP() {
     // but it does NOT modify any fetch behavior, just a mild helper for styling
     // Original code flow fully intact
     try {
-        const res = await fetch("/send-otp", {
+	console.log("Sending OTP...");
+//        const res = await fetch("/send-otp", {
+		const res = await fetch("https://mailotp.onrender.com/send-otp", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email })

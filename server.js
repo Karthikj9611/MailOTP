@@ -31,6 +31,7 @@ function generateOTP() {
 }
 
 app.post("/send-otp", async (req, res) => {
+	 console.log("API HIT");
     const { email } = req.body;
 
     if (!email) {
